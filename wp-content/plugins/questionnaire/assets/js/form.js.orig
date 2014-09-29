@@ -1,0 +1,1314 @@
+$(function() {
+    var index_phone = 2,
+        index_glucometr = 2,
+        status_video = 'close',
+        $diagnosis = $('#diagnosis'),
+        $birthday = $( "#birthday" ),
+        $type = $('#type'),
+        $add_phone = $('#add_phone'),
+        $banner = $("#banner"),
+        $page_header = $(".page-header"),
+        $video = $(".video"),
+        $btn_main_anket = $('[name="main_anket"]'),
+        $btn_personal_data = $('[name="personal_data"]'),
+        $btn_data_glukometr = $('[name="data_glukometr"]'),
+        $personal_data = $("#personal_data_form"),
+        $data_glukometr = $('#data_glukometr_form'),
+        $main_anket = $('#main_anket_form'),
+        $step_1 = $("#step_1"),
+        $step_2 = $("#step_2"),
+        $step_3 = $("#step_3"),
+        $agree_row = $("#agree").closest('.row'),
+        $add_glucometr = $('#add_glucometr'),
+        header = document.querySelector('.header'),
+        origOffsetY = header.offsetTop,
+        $day_purchase_glucometr = $(".day_purchase_glucometr"),
+        site_url = $('#site_url').val()
+        $select_glucometr = '',
+        $free_test_line = $('[name="free_test_line"]'),
+        $comment = $('#comment'),
+        $diagnosis_another = $('#diagnosis_another'),
+        $coordinated_by = $('#coordinated_by'),
+        $email = $('[name="email"]'),
+        $phone = $('#phone'),
+        $phone_select = $('[name="phone_select"]'),
+        $email_owner = $('[name="email_owner"]'),
+        $index = $('[name="index"]'),
+        $state = $('[name="state"]'),
+        $city = $('[name="city"]'),
+        $street = $('[name="street"]'),
+        $build = $('[name="build"]'),
+        $address_owner = $('[name="address_owner"]');
+
+    $('[data-required]').on('change', function() {
+        if ($(this).valid()) {
+            $(this).closest('.row').find('.succes').removeClass('hide');
+        }
+        else {
+           $(this).closest('.row').find('.succes').addClass('hide'); 
+        }
+    });
+
+    $('[name="index"], [name="state"], [name="city"], [name="street"], [name="build"]').on('change', function(){
+        if ($(this).valid()) {
+            if ($type.val() === 'coordinator') {
+                if ($address_owner.val() !== '') {
+                    $(this).closest('.row').find('.succes').removeClass('hide');
+                }
+                else {
+                   $(this).closest('.row').find('.succes').addClass('hide');
+                }
+            }
+            else {
+                $(this).closest('.row').find('.succes').removeClass('hide');
+            }
+        }
+        else {
+           $(this).closest('.row').find('.succes').addClass('hide'); 
+        }
+    });
+
+    $address_owner.on('change', function() {
+        if ($(this).val() !== '') {
+            if ($index.val() !== '' && $index.valid()) {
+                $index.closest('.row').find('.succes').removeClass('hide');
+            }
+            else {
+                $index.closest('.row').find('.succes').addClass('hide');
+            }
+
+            if ($state.val() !== '' && $state.valid()) {
+                $state.closest('.row').find('.succes').removeClass('hide');
+            }
+            else {
+                $state.closest('.row').find('.succes').addClass('hide');
+            }
+
+            if ($city.val() !== '' && $city.valid()) {
+                $city.closest('.row').find('.succes').removeClass('hide');
+            }
+            else {
+                $city.closest('.row').find('.succes').addClass('hide');
+            }
+
+            if ($street.val() !== '' && $street.valid()) {
+                $street.closest('.row').find('.succes').removeClass('hide');
+            }
+            else {
+                $street.closest('.row').find('.succes').addClass('hide');
+            }
+
+            if ($build.val() !== '' && $build.valid()) {
+                $build.closest('.row').find('.succes').removeClass('hide');
+            }
+            else {
+                $build.closest('.row').find('.succes').addClass('hide');
+            }
+        }
+        else {
+            $index.closest('.row').find('.succes').addClass('hide');
+            $state.closest('.row').find('.succes').addClass('hide');
+            $city.closest('.row').find('.succes').addClass('hide');
+            $street.closest('.row').find('.succes').addClass('hide');
+            $build.closest('.row').find('.succes').addClass('hide');
+        }
+    });
+
+    $email.on('change', function() {
+        if ($(this).valid()) {
+            if ($type.val() === 'coordinator') {
+                if ($email_owner.val() !== '') {
+                    $(this).closest('.row').find('.succes').removeClass('hide');
+                }
+                else {
+                   $(this).closest('.row').find('.succes').addClass('hide');
+                }
+            }
+            else {
+                $(this).closest('.row').find('.succes').removeClass('hide');
+            }
+        }
+        else {
+           $(this).closest('.row').find('.succes').addClass('hide'); 
+        }
+    });
+
+    $email_owner.on('change', function() {
+        if ($(this).val() !== '') {
+            if ($email.val() !== '' && $email.valid()) {
+                $(this).closest('.row').find('.succes').removeClass('hide');
+            }
+            else {
+                $(this).closest('.row').find('.succes').addClass('hide');
+            }
+        }
+        else {
+           $(this).closest('.row').find('.succes').addClass('hide'); 
+        }
+    });
+
+    $phone.on('focusout', function() {
+        if ($(this).valid()) {
+            if ($type.val() === 'coordinator') {
+                if ($phone_select.val() !== '') {
+                    $(this).closest('.row').find('.succes').removeClass('hide');
+                }
+                else {
+                   $(this).closest('.row').find('.succes').addClass('hide');
+                }
+            }
+            else {
+                $(this).closest('.row').find('.succes').removeClass('hide');
+            }
+        }
+        else {
+           $(this).closest('.row').find('.succes').addClass('hide'); 
+        }
+    });
+
+    $phone_select.on('change', function() {
+        if ($(this).val() !== '') {
+            if ($phone.val() !== '7' && $phone.valid()) {
+                $(this).closest('.row').find('.succes').removeClass('hide');
+            }
+            else {
+                $(this).closest('.row').find('.succes').addClass('hide');
+            }
+        }
+        else {
+           $(this).closest('.row').find('.succes').addClass('hide'); 
+        }
+    });
+
+    $(".validate_on_change").on('change', function(){
+        if ($(this).valid()) {            
+            if ($(this).val() !== 'other') {
+                $(this).closest('.row').find('.succes').removeClass('hide');
+            }
+            else {
+                $(this).closest('.row').find('.succes').addClass('hide'); 
+            }
+        }
+        else {
+            $(this).closest('.row').find('.succes').addClass('hide');            
+        }
+    });
+    
+    $('.answer select').on('change', function() {
+        var $answer = $(this),
+            $row = $answer.closest('.row'),
+            $fieldset = $(this).closest('fieldset'),
+            selected_answer = ['1', '2', '3'],
+            hide_options = [];
+
+        switch ($answer.val()) {
+        case '1':
+            $row.css('background-color', 'rgb(116, 227, 255)');
+            $answer.css('color', 'rgb(116, 227, 255)');
+            break;
+        case '2':
+            $row.css('background-color', 'rgb(104, 197, 32)');
+            $answer.css('color', 'rgb(104, 197, 32)');
+            break;
+        case '3':
+            $row.css('background-color', 'rgb(31, 109, 247)');
+            $answer.css('color', 'rgb(31, 109, 247)');
+            break;
+        default:
+            $row.css('background-color', 'inherit');
+            $answer.css('color', 'black');
+            break;
+        }
+
+
+        $fieldset.find('select').each(function(){
+            if ($(this).val() !== '') {
+                hide_options.push($(this).val());
+                delete selected_answer[$(this).val() - 1];
+            }
+        });
+
+        selected_answer.sort();
+
+        $fieldset.find('select').each(function(){
+            if ($(this).val() === '') {
+                $(this).find('option[value!=""]').attr('value', selected_answer[0]).text(selected_answer[0]);
+            }
+        });
+
+        if (hide_options.length === 3) {
+            $fieldset.find('select').each(function(){
+                if ($(this).val() === '') {
+                    $(this).addClass('hide');
+                }
+            });
+        }
+        else {
+            $fieldset.find('select').removeClass('hide');
+        }
+    });
+
+
+    $btn_data_glukometr.on('click', function(event){
+        var href_step_1 = $step_1.attr('src'),
+            href_step_2 = $step_2.attr('src'),
+            href_step_3 = $step_3.attr('src'),
+            go_to_page = false,
+            form = $('form:visible');
+
+        event.preventDefault();
+
+        if (form.attr('name') === 'personal_data_form'){
+            if (form.valid()) {
+                $personal_data.addClass('hide');
+                $step_1.attr('src', href_step_1.replace('active', 'middle'));
+                $step_2.attr('src', href_step_2.replace('noactive', 'active'));
+                go_to_page = true;
+            }
+        }
+        else if(form.attr('name') === 'main_anket_form'){
+            $main_anket.addClass('hide');
+            $step_1.attr('src', href_step_1.replace('noactive', 'middle'));
+            $step_2.attr('src', href_step_2.replace('middle', 'active'));
+            $step_3.attr('src', href_step_3.replace('active', 'noactive'));
+            go_to_page = true;
+        }
+        if (go_to_page) {
+            $agree_row.addClass('hide');
+            $data_glukometr.removeClass('hide');
+        }
+        scrollToError();
+    });
+
+    $btn_personal_data.on('click', function(event){
+        var href_step_1 = $step_1.attr('src'),
+            href_step_2 = $step_2.attr('src'),
+            href_step_3 = $step_3.attr('src'),
+            go_to_page = false,
+            form = $('form:visible');
+
+        event.preventDefault();
+
+        if (form.attr('name') === 'data_glukometr_form'){
+            $data_glukometr.addClass('hide');
+            $step_1.attr('src', href_step_1.replace('middle', 'active'));
+            $step_2.attr('src', href_step_2.replace('active', 'noactive'));
+            go_to_page = true;
+        }
+        if (go_to_page) {
+            $agree_row.removeClass('hide');
+            $personal_data.removeClass('hide');
+        }
+        scrollToError();
+    });
+
+    $btn_main_anket.on('click', function(event){
+        var href_step_1 = $step_1.attr('src'),
+            href_step_2 = $step_2.attr('src'),
+            href_step_3 = $step_3.attr('src'),
+            go_to_page = false,
+            form = $('form:visible');
+
+        event.preventDefault();
+
+        if (form.attr('name') === 'data_glukometr_form'){
+            if (form.valid()) {
+                $data_glukometr.addClass('hide');
+                $step_1.attr('src', href_step_1.replace('middle', 'noactive'));
+                $step_2.attr('src', href_step_2.replace('active', 'middle'));
+                $step_3.attr('src', href_step_3.replace('noactive', 'active'));
+                go_to_page = true;
+            }
+        }
+        if (go_to_page) {
+            $main_anket.removeClass('hide');
+        }
+        scrollToError();
+    });
+
+    $step_1.on('click', function(event){
+        var href_step_1 = $step_1.attr('src'),
+            href_step_2 = $step_2.attr('src'),
+            href_step_3 = $step_3.attr('src'),
+            go_to_page = false,
+            form = $('form:visible');
+
+        event.preventDefault();
+
+        if (form.attr('name') === 'data_glukometr_form'){
+            $data_glukometr.addClass('hide');
+            $step_1.attr('src', href_step_1.replace('middle', 'active'));
+            $step_2.attr('src', href_step_2.replace('active', 'noactive'));
+            go_to_page = true;
+        }
+        if (go_to_page) {
+            $agree_row.removeClass('hide');
+            $personal_data.removeClass('hide');
+        }
+        scrollToError();
+
+    });
+
+    $step_2.on('click', function(event){
+        var href_step_1 = $step_1.attr('src'),
+            href_step_2 = $step_2.attr('src'),
+            href_step_3 = $step_3.attr('src'),
+            go_to_page = false,
+            form = $('form:visible');
+
+        event.preventDefault();
+
+        if (form.attr('name') === 'personal_data_form'){
+            if (form.valid()) {
+                $personal_data.addClass('hide');
+                $step_1.attr('src', href_step_1.replace('active', 'middle'));
+                $step_2.attr('src', href_step_2.replace('noactive', 'active'));
+                go_to_page = true;
+            }
+        }
+        else if(form.attr('name') === 'main_anket_form'){
+            $main_anket.addClass('hide');
+            $step_1.attr('src', href_step_1.replace('noactive', 'middle'));
+            $step_2.attr('src', href_step_2.replace('middle', 'active'));
+            $step_3.attr('src', href_step_3.replace('active', 'noactive'));
+            go_to_page = true;
+        }
+        if (go_to_page) {
+            $agree_row.addClass('hide');
+            $data_glukometr.removeClass('hide');
+        }
+        scrollToError();
+    });
+
+    $step_3.on('click', function(event){
+        var href_step_1 = $step_1.attr('src'),
+            href_step_2 = $step_2.attr('src'),
+            href_step_3 = $step_3.attr('src'),
+            go_to_page = false,            
+            form = $('form:visible');
+
+        event.preventDefault();
+
+        if(form.attr('name') === 'data_glukometr_form'){
+            if (form.valid()) {
+                $data_glukometr.addClass('hide');
+                $step_1.attr('src', href_step_1.replace('middle', 'noactive'));
+                $step_2.attr('src', href_step_2.replace('active', 'middle'));
+                $step_3.attr('src', href_step_3.replace('noactive', 'active'));
+                go_to_page = true;
+            }
+        }
+        if (go_to_page) {
+            $agree_row.addClass('hide');
+            $main_anket.removeClass('hide');
+        }
+        scrollToError();
+    });
+
+    $video.on('click', function(event) {
+        if (status_video === 'close'){
+            status_video = 'open';
+        }
+        else{
+            event.preventDefault();
+            $video.removeClass('fancybox-media');
+            $('.fancybox-overlay').show();
+            $('.fancybox-lock').css('overflow', 'hidden');
+        }
+
+    });
+
+    $(".fancybox").fancybox();
+    $('.fancybox-media').fancybox({
+        openEffect  : 'none',
+        closeEffect : 'none',
+        helpers : {
+            media : {},
+            overlay: {
+                closeClick: true
+            }
+        }
+    });
+
+    $day_purchase_glucometr.datepicker({
+            dateFormat: 'dd.mm.yy',
+            changeMonth: true,
+            changeYear: true,
+    });
+
+    $birthday.datepicker({
+            dateFormat: 'dd.mm.yy',
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "1900:2013",
+            defaultDate: '-18y',
+    });
+
+    $('input[name^="agree"]').on('change', function(data){
+        if ($(this).prop('checked') === true) {
+            $('.questionnaire').removeClass('hide');
+        } else {
+            $('.questionnaire').addClass('hide');
+        }
+    });
+
+    $type.on('change', function(data){
+        if ($type.val() !== '') {
+            $('.questions').removeClass('hide');
+            $('.'+$(this).prop('value')).removeClass('hide');
+            if ($(this).prop('value') === 'user') {
+                // $coordinated_by.val('');
+                $(this).closest('.row').find('.succes').removeClass('hide');
+                $('.coordinator').addClass('hide');
+            } else {
+                if ($coordinated_by.val() !== '') {
+                    $coordinated_by.closest('.row').find('.succes').removeClass('hide');
+                }
+                else {
+                    var owners_and_fields =
+                        [
+                            {
+                                owner: $phone_select,
+                                field: $phone,
+                                field_search_value: '7',
+                            },
+                            {
+                                owner: $email_owner,
+                                field: $email,
+                                field_search_value: '',
+                            },
+                            {
+                                owner: $address_owner,
+                                field: $index,
+                                field_search_value: '',
+                            },
+                            {
+                                owner: $address_owner,
+                                field: $state,
+                                field_search_value: '',
+                            },
+                            {
+                                owner: $address_owner,
+                                field: $city,
+                                field_search_value: '',
+                            },
+                            {
+                                owner: $address_owner,
+                                field: $street,
+                                field_search_value: '',
+                            },
+                            {
+                                owner: $address_owner,
+                                field: $build,
+                                field_search_value: '',
+                            }
+                        ];
+
+                    $coordinated_by.closest('.row').find('.succes').addClass('hide');
+
+                    $(owners_and_fields).each(function(){
+                        if (this.field.val() !== this.field_search_value && this.owner.val() !== '') {
+                            if (this.field.valid()){
+                                this.field.closest('.row').find('.succes').removeClass('hide');                                                   
+                            }
+                        }
+                        else {
+                            this.field.closest('.row').find('.succes').addClass('hide');
+                        }
+                    });
+
+                }
+
+                $('.user').addClass('hide');
+            }
+            $(this).closest('fieldset').addClass('custom_fieldset');
+        } else {
+            $('.user, .coordinator').addClass('hide');
+            $('.questions').addClass('hide');
+            $(this).closest('fieldset').removeClass('custom_fieldset');
+            // $coordinated_by.val('');
+            $(this).closest('.row').find('.succes').addClass('hide');
+        }
+    });
+
+    $coordinated_by.on('change', function(data){
+        if($(this).val() !== '' && $type.val() !== ''){
+            $(this).closest('.row').find('.succes').removeClass('hide');
+        }
+        else {
+            $(this).closest('.row').find('.succes').addClass('hide');
+        }
+    });
+
+
+    $diagnosis.on('change', function (){
+        if ($(this).val() === 'other') {
+            $diagnosis_another.parent('div').removeClass('hide');
+            $diagnosis_another.closest('.row').find('.succes').addClass('hide'); 
+        } else {
+            $diagnosis_another.val('').parent('div').addClass('hide');
+        }
+    })
+
+    $('.other').on('change', function (){
+        if ($(this).val() !== '') {
+            $(this).closest('fieldset').find('textarea').removeClass('hide');
+        } else {
+            $(this).closest('fieldset').find('textarea').val('').addClass('hide');
+        }
+    })
+
+    $('[name="q3_a5"],[name="q3_a3"]').on('click', function(){
+        if ($(this).prop('checked') === true) {
+            if ($(this).attr('name') === 'q3_a5') {
+                $(this).closest('fieldset').find('textarea').removeClass('hide');
+            }
+            else if ($(this).attr('name') === 'q3_a3') {
+                $(this).closest('fieldset').find('#medical_referral').removeClass('hide');  
+            }
+        } else {
+            if ($(this).attr('name') === 'q3_a5') {
+                $(this).closest('fieldset').find('textarea').val('').addClass('hide');
+            }
+            else if ($(this).attr('name') === 'q3_a3') {
+                $(this).closest('fieldset').find('#medical_referral').val('').addClass('hide');  
+            }
+        }
+    });
+
+    $('#used_yes').on('click', function(){
+        $('.devices').removeClass('hide');
+    });
+
+    $('#used_no').on('click', function(){
+        $('.devices').addClass('hide');
+    });
+
+
+    var listRU = $.masksSort($.masksLoad(site_url+"/phone_code/phones-ru.json"), ['#'], /[0-9]|#/, "mask");
+    var optsRU = {
+        inputmask: {
+            definitions: {
+                '#': {
+                    validator: "[0-9]",
+                    cardinality: 1
+                }
+            },
+            showMaskOnHover: false,
+            autoUnmask: true
+        },
+        match: /[0-9]/,
+        replace: '#',
+        list: listRU,
+        listKey: "mask",
+        onMaskChange: function(maskObj, determined) {
+        }
+    };
+
+    $('.phone').inputmasks(optsRU);
+
+
+    $add_phone.on('click', function(data){
+        var class_in_select = '';
+
+        if ($('select[name="type"]').val() !== 'coordinator') {
+            class_in_select = 'hide';
+        }
+
+        var html = 
+                '<div class="row">'+
+                    '<div class="col-md-4 col-sm-4 col-xs-8">'+
+                        '<label style="white-space: nowrap;" for="phone'+index_phone+'" class="coordinator hide">Контактный телефон '+index_phone+':</label>'+
+                    '</div>'+
+                    '<div class="col-md-6 col-sm-6 col-xs-8">'+
+                        '<select name="phone'+index_phone+'" class="coordinator '+class_in_select+'">'+
+                            '<option value>---</option>'+
+                            '<option value="1">Пользователя</option>'+
+                            '<option value="2">Куратора</option>'+
+                        '</select>'+
+                        '<input type="text" name="phone'+index_phone+'" id="phone'+index_phone+'" class="phone" value="7" maxlength="32" placeholder="+_(____)__-__-__" size="15">'+
+                    '</div>'+
+                    '<div class="col-md-1 col-md-offset-1">'+
+                        '<input type="image" src="'+site_url+'/wp-content/plugins/questionnaire/assets/css/images/close.png" name="close_phone" size="1">'+
+                    '</div>'+
+                '</div>';
+        $(this).parent('div').before(html);
+        $('.phone').inputmasks(optsRU);
+
+        index_phone++;
+
+        if (index_phone === 4) {
+            $add_phone.addClass('hide');
+        }
+    });
+
+    $('body').on('click', '[name="close_phone"]', function(event){
+        event.preventDefault();
+        $(this).closest('div .row').remove();
+        $add_phone.removeClass('hide');
+        index_phone--;
+    });
+
+    $add_glucometr.on('click', function(data){
+        var count_glucometr_class = '';
+
+        if ($free_test_line.is(':checked')) {
+            count_glucometr_class = 'hide';
+        }
+        
+
+        var html = 
+                '<div class="block_glucometr">'+
+                    '<div class="row">'+
+                        '<div class="col-md-9 col-sm-9">'+
+                            '<input type="text" name="glucometr'+index_glucometr+'" size="50" >'+
+                        '</div>'+
+                        '<div class="col-md-1 col-sm-1">'+
+                            '<input type="text" class="hide '+count_glucometr_class+'" name="count_glucometr'+index_glucometr+'" size="1">'+
+                        '</div>'+
+                        '<div class="col-md-1 col-md-offset-1 col-sm-1 col-sm-offset-1">'+
+                            '<input type="image" src="'+site_url+'/wp-content/plugins/questionnaire/assets/css/images/close.png" name="close_glucometr" size="1">'+
+                        '</div>'+
+                    '</div>'+
+                    '<div class="row">'+
+                        '<div class="col-md-7 col-sm-7">'+
+                            '<label style="margin-top: 6px;">Укажите примерную дату покупки прибора:</label>'+
+                        '</div>'+
+                        '<div class="col-md-4 col-sm-4">'+
+                            '<input size="10" readonly type="text" class="day_purchase_glucometr" name="day_purchase_glucometr'+index_glucometr+'" >'+
+                        '</div>'+
+                    '</div>'+
+                '</div>';
+        $(this).parent('div').before(html);
+
+        $(".day_purchase_glucometr").datepicker({
+            dateFormat: 'dd.mm.yy',
+            changeMonth: true,
+            changeYear: true,
+        });
+
+
+        autocomplete();
+
+        index_glucometr++;
+
+        if (index_glucometr === 6) {
+            $add_glucometr.addClass('hide');
+        }
+    });
+
+    $('body').on('click', '[name="close_glucometr"]', function(event){
+        event.preventDefault();
+        $(this).closest('div .block_glucometr').remove();
+        $add_glucometr.removeClass('hide');
+        index_glucometr--;
+    });
+
+
+
+    function autocomplete(){
+        var glucometerTags = [
+            "Accu-Chek Active (Акку-Чек Актив)",
+            "Accu-Chek Go (Акку-Чек Гоу)",
+            "Accu-Chek Performa (Акку-Чек Перформа)",
+            "Accu-Chek Performa Nano (Акку-Чек Перформа Нано)",
+            "Accu-Chek Mobile (Акку-Чек Мобайл)",
+            "Accutrend Plus (Аккутренд Плюс)",
+            "OneTouch Ultra (УанТач Ультра)",
+            "OneTouch Ultra Easy (УанТач УльтраИзи)",
+            "OneTouch Select (УанТач Селект)",
+            "OneTouch Select Simple (УанТач СелектСимпл)",
+            "OneTouch Horizon (Уан Тач Горизонт)",
+            "Contour TS (Контур ТС)",
+            "Ascensia Elite (Асцензия Элит)",
+            "Ascensia Entrust (Асцензия Энтраст)",
+            "FreeStyle Papillon Mini (Фристайл Папиллон Мини)",
+            "Optium Xceed (Оптиум Эксид)",
+            "Optium Omega (Оптиум Омега)",
+            "Clever Chek ТD-4209 (Клевер Чек TD-4209)",
+            "Clever Chek ТD-4227 (Клевер Чек TD-4227)",
+            "Сателлит",
+            "Сателлит Плюс",
+            "Сателлит-Экспресс",
+            "IME-DC (АЙМЕ-ДиСи)",
+            "Bionime Rightest GM300 (Бионайм Райтест ГМ300)",
+            "Bionime Rightest GM500 (Бионайм Райтест ГМ500)",
+            "Sensocard (Сенсокард)",
+            "Sensocard Plus (Сенсокард Плюс)",
+            "WG-70 Slim (ВГ-70 Слим)",
+            "WG-72 Voice (ВГ-72 Говорящий)",
+            "Bluecare (Блюкеар)",
+            "iCheck (АйЧек)",
+            "Diabest (Диабест)",
+            "Diacont (Диаконт)",
+            "Клевер Чек СКС-03",
+            "Клевер Чек СКС-05",
+            "CareSens POP (КэаСенс Поп)",
+            "ОМЕЛОН А-1",
+            "SD Check Gold (ЭсДи Чек Голд)",
+            "EasyTouch GCHb (Изи Тач ДжиСиЭйчБи)",
+            "EasyTouch GCU (Изи Тач ДжиСиЮ)",
+            "MultiCare-in (MультиКэа-ин)",
+            "TRUEresult twist (Тру Резалт Твист)",
+        ];
+        $('[name^="glucometr"]').autocomplete({
+          source: glucometerTags
+        });
+    }
+
+    autocomplete();
+
+    $.validator.addMethod(
+        'regexp',
+        function(value, element, regexp) {
+            var re = new RegExp(regexp);
+            return this.optional(element) || re.test(value);
+        },
+        "Please check your input."
+    );    
+
+    $personal_data.validate({
+         rules:{
+            phone_select:{
+                required: true,
+            },
+            email_owner:{
+                required: true,
+            },
+            address_owner:{
+                required: true,
+            },
+            type:{
+                required: true,
+            },
+            lastname:{
+                required: true,
+                regexp: '^[а-яА-Я ]+$'
+            },
+            name:{
+                required: true,
+                regexp: '^[а-яА-Я ]+$'
+            },
+            middlename:{
+                required: true,
+                regexp: '^[а-яА-Я ]+$'
+            },
+            c_lastname:{
+                required: true,
+                regexp: '^[а-яА-Я ]+$'
+            },
+            c_name:{
+                required: true,
+                regexp: '^[а-яА-Я ]+$'
+            },
+            c_middlename:{
+                required: true,
+                regexp: '^[а-яА-Я ]+$'
+            },
+            birthday:{
+                required: true,
+            },
+            phone:{
+                required: true,
+                minlength: 11,
+            },
+            email:{
+                required: true,
+                email: true,
+                regexp: '^[a-zA-Z@.]+$'
+            },
+            index:{
+                required: true,
+                digits: true,
+            },
+            state:{
+                required: true,
+                regexp: '^[а-яА-Я ]+$'
+            },
+            city:{
+                required: true,
+                regexp: '^[а-яА-Я ]+$'
+            },
+            street:{
+                required: true,
+                regexp: '^[а-яА-Я0-9 ]+$'
+            },
+            build:{
+                required: true,
+                digits: true,
+            },
+            diagnosis:{
+                required: true,
+            },
+            coordinated_by:{
+                required: true,
+                regexp: '^[а-яА-Я ]+$'
+            },
+            diagnosis_another:{
+                required: true,
+            },
+            flat:{
+                digits: true,
+            },
+            campus:{
+                regexp: '^[а-яА-Я0-9 ]+$'
+            },
+         },
+         messages:{
+            phone_select:{
+                required: "Выберите категорию участника проекта, чей контактный телефон вы будете указывать",
+            },
+            email_owner:{
+                required: "Выберите категорию участника проекта, чей email вы будете указывать",
+            },
+            address_owner:{
+                required: "Выберите категорию участника проекта, чей адрес вы будете указывать",
+            },
+            type:{
+                required: "Укажите категорию участника проекта",
+            },
+            lastname:{
+                required: "Укажите фамилию пользователя",
+                regexp: "Только русские буквы"
+            },
+            name:{
+                required: "Укажите имя пользователя",
+                regexp: "Только русские буквы"
+            },
+            middlename:{
+                required: "Укажите отчество пользователя",
+                regexp: "Только русские буквы"
+            },
+            c_lastname:{
+                required: "Укажите фамилию куратора",
+                regexp: "Только русские буквы"
+            },
+            c_name:{
+                required: "Укажите имя куратора",
+                regexp: "Только русские буквы"
+            },
+            c_middlename:{
+                required: "Укажите отчество куратора",
+                regexp: "Только русские буквы"
+            },
+            birthday:{
+                required: "Укажите дату рождения пользователя",
+            },
+            phone:{
+                required: "Укажите контактный телефон",
+                minlength: "Введен неправильный телефонный номер",
+            },
+            email:{
+                required: "Укажите контактный email пользователя",
+                email: "Введен неправильный телефонный email",
+                regexp: 'Только спец. символы и английские буквы'
+            },
+            index:{
+                required: "Укажите индекс",
+                digits: "Только цифры",
+            },
+            state:{
+                required: "Укажите область",
+                regexp: "Только русские буквы"
+            },
+            city:{
+                required: "Укажите город",
+                regexp: "Только русские буквы"
+            },
+            street:{
+                required: "Укажите улицу",
+                regexp: "Только русские буквы и цифры"
+            },
+            build:{
+                required: "Укажите дом",
+                digits: "Только цифры",
+            },
+            diagnosis:{
+                required: "Выберите диагноз пользователя из списка, или укажите свой варианта",
+            },
+            coordinated_by:{
+                required: "Укажите кого вы курируете",
+                regexp: "Только русские буквы"
+            },
+            diagnosis_another:{
+                required: "Укажите свой вариант",
+            },
+            flat:{
+                digits: "Только цифры",
+            },
+            campus:{
+                regexp: "Только русские буквы и цифры"
+            },
+         },
+    });
+
+
+    $data_glukometr.validate({
+         rules:{
+            used:{
+                required: true,
+            },
+            glucometr:{
+                required: true,
+            },
+            day_purchase_glucometr:{
+                required: true,
+            },
+            count_glucometr:{
+                required: true,
+                range: [1, 999],
+                digits: true,
+            },
+            comment:{
+                required: true,
+            },
+         },
+         messages:{
+            used:{
+                required: "Необходимо выбрать вариант ответа",
+            },
+            glucometr:{
+                required: "Выберите модель вашего глюкометра",
+            },
+            day_purchase_glucometr:{
+                required: "Укажите примерную дату покупки глюкометра, для этого введите его название в поле поиска",
+            },
+            count_glucometr:{
+                required: "Укажите количество тест-полосок, которое вы используете, совместно с выбранным глюкометром в месяц",
+                range: "Укажите значение от 1 до 999",
+                digits: "Только цифры",
+            },
+            comment:{
+                required: "Введите комментарий",
+            },
+         },
+    });
+
+    $main_anket.validate({
+         rules:{
+            q1_a1:{
+                required: true,
+            },
+            q2_a6:{
+                required: true,
+            },
+            q3_a6:{
+                required: true,
+            },
+            q4_a1:{
+                required: true,
+            },
+            q5_a7:{
+                required: true,
+            },
+            q6_a6:{
+                required: true,
+            },
+            q7_a1:{
+                required: true,
+            },
+            q8_a1:{
+                required: true,
+            },
+            q9_a1:{
+                required: true,
+            },
+            medical_referral:{
+                required: true,
+            },
+         },
+         messages:{
+            q1_a1:{
+                required: "Укажите свой вариант ответа",
+            },
+            q2_a6:{
+                required: "Укажите свой вариант ответа",
+            },
+            q3_a6:{
+                required: "Укажите свой вариант ответа",
+            },
+            q4_a1:{
+                required: "Укажите свой вариант ответа",
+            },
+            q5_a7:{
+                required: "Укажите свой вариант ответа",
+            },
+            q6_a6:{
+                required: "Укажите свой вариант ответа",
+            },
+            q7_a1:{
+                required: "Укажите свой вариант ответа",
+            },
+            q8_a1:{
+                required: "Укажите свой вариант ответа",
+            },
+            q9_a1:{
+                required: "Укажите свой вариант ответа",
+            },
+            medical_referral:{
+                required: "Укажите номер/название справочной",
+            },
+         },
+    });
+
+
+    $('[name="button_submit"]').on('click', function(event){
+        var send_anket = true;
+
+        event.preventDefault();
+
+
+        
+        $('.prize_places').each(function(){
+            if (!validate_prize_places($(this))) {
+                send_anket = false;
+            }
+        });
+
+        $('.validate_checkbox').each(function(){
+            if (!validate_checkbox($(this))) {
+                send_anket = false;
+            } 
+        });
+
+        if (!$main_anket.valid()) {
+            send_anket = false;
+        } 
+        
+
+        if (send_anket) {
+            $.post(
+                site_url+"/be/anket.php", 
+                $("form").serialize(), 
+                function(data){
+                    // window.location = site_url+'/successful-fill-beginner';
+                    console.log(data);
+                }
+            );
+            // $.ajax({
+            //     site_url+"/be/anket.php",
+            //     $('form').serialize()
+            // })
+            // .done(function( data ) {
+            //     console.log(data);
+            // });
+        }
+        else {
+            scrollToError();
+        }
+
+    });
+
+    $('.prize_places').on('change', function(){
+        if (validate_prize_places($(this))) {
+            if ($(this).find('.other').val() === '1') {
+                if ($(this).find('.other_answer').val() !== ''){
+                    $(this).closest('.div_succes').find('.succes').removeClass('hide');
+                }
+                else {
+                    $(this).closest('.div_succes').find('.succes').addClass('hide');
+                }
+            }
+            else {
+                $(this).closest('.div_succes').find('.succes').removeClass('hide');
+            }
+        }
+        else {
+            $(this).closest('.div_succes').find('.succes').addClass('hide');
+        }
+    });
+
+    $('.validate_checkbox').on('change', function(){
+        var $elements = $('.validate_checkbox').find(':checked'),
+            $fieldset = $(this);
+
+        if (validate_checkbox($(this))) {
+            $elements.each(function(){
+                if ($(this).attr('name') !== 'q3_a5' && $(this).attr('name') !== 'q3_a3') {
+                    $fieldset.closest('.row').find('.succes').removeClass('hide');
+                }
+                else {
+                    if ($fieldset.find('.other_answer:visible').val() !== ''){
+                        $fieldset.closest('.row').find('.succes').removeClass('hide');
+                    }
+                    else {
+                        $fieldset.closest('.row').find('.succes').addClass('hide');
+                    }
+                }            
+            });
+        }
+        else {
+            $fieldset.closest('.row').find('.succes').addClass('hide');
+        }
+    });
+
+
+    $('body').on('click', '[name^="glucometr"]', function(){
+        $select_glucometr = $(this);
+    });
+
+    $('body').on('change', '[name^="glucometr"]', function(){
+        if ($(this).val() === '') {
+            if (!$free_test_line.is(':checked')) {
+                $(this).closest('div .row').find('[name^="count_glucometr"], .succes').addClass('hide');  
+            }
+            else {
+                $comment.closest('.row').find('.succes').addClass('hide');
+            }
+            
+        }
+        else {
+            if (!$free_test_line.is(':checked')) {
+                $select_glucometr.closest('div .row').find('[name^="count_glucometr"]').removeClass('hide');   
+            }
+            else {
+                if ($comment.val() !== '') {
+                    $comment.closest('.row').find('.succes').removeClass('hide');
+                }
+            }
+        }
+    });
+
+    $('body').on('click', '.ui-menu-item', function(){
+        if (!$free_test_line.is(':checked')) {
+            $select_glucometr.closest('div .row').find('[name^="count_glucometr"]').removeClass('hide');   
+        }
+        else {
+            if ($comment.val() !== '') {
+                $comment.closest('.row').find('.succes').removeClass('hide');
+            }
+        }
+    });
+
+    $free_test_line.on('click', function(){
+        var $count_glucometr = $('[name^="count_glucometr"]'),
+            $glucometr = $('[name^="glucometr"]');
+
+        if ($(this).is(':checked')){
+            $(this).closest('.row').find('label').removeClass('free_test_line');
+            $count_glucometr.val('').addClass('hide');
+            $comment.closest('.row').removeClass('hide');
+            $count_glucometr.closest('div').find('.succes').addClass('hide');
+            $count_glucometr.closest('div').find('label.error').remove();
+        }
+        else{
+            $(this).closest('.row').find('label').addClass('free_test_line');
+            $comment.val('').closest('.row').addClass('hide');
+            $comment.closest('.row').find('.succes').addClass('hide');
+            $comment.removeClass('error')
+            $comment.closest('div').find('label.error').remove();
+            $glucometr.each(function(){
+                if ($(this).val() !== '') {
+                    $(this).closest('.row').find('[name^="count_glucometr"]').removeClass('hide').removeClass('error');
+                }
+            });
+
+        }
+    });
+    
+    $comment.on('change', function(){
+        if ($('[name="glucometr"]').val() !== '' && $(this).val() !== '') {
+            $(this).closest('.row').find('.succes').removeClass('hide');
+        }
+        else {
+            $(this).closest('.row').find('.succes').addClass('hide');
+        }
+    });
+
+    function validate_prize_places(fieldset) {
+        var succes = false,
+            other_prize_place = false,
+            select_answer = [];
+
+        fieldset.find('select').each(function(){
+            if ($(this).val() === '1') {
+                succes = true;
+                select_answer.push($(this).val());                
+            }
+            else if ($(this).val() !== '') {
+                other_prize_place = true;
+                select_answer.push($(this).val());      
+            }
+        });
+        if (!succes) {
+            fieldset.addClass('error');
+            if (!other_prize_place) {
+                fieldset.find('label.error').remove();
+                fieldset.append(
+                    '<label class="row error">'+
+                        'Присвойте призовое место 1 тому варианту ответа, который считаете наиболее важным '+
+                        '</br> Если такого нет в предложенном списке, тогда присвойте призовое место 1 пункту "другое" и впишите свой вариант ответа в окно, которое появится рядом. '+
+                        '</br> После чего можно присвоить 2 и 3 призовые места, тем ответам которые также важны для вас, но чуть меньше. (необязательно) '+
+                        '</br> Можно присвоить не более 3 призовых мест.'+
+                    '</label>'
+                );
+            }
+            else {
+                fieldset.find('label.error').remove();
+                fieldset.append(
+                    '<label class="row error">'+
+                        'Присвойте призовое место 1 тому варианту ответа, который считаете наиболее важным '+
+                        '</br> Если такого нет в предложенном списке, тогда присвойте призовое место 1 пункту "другое" и впишите свой вариант ответа в окно, которое появится рядом. '+
+                    '</label>'
+                );
+
+            }
+        }
+        else {
+            if (select_answer.length === 2 && $.inArray('2', select_answer ) === -1) {
+                succes = false;
+                fieldset.addClass('error');
+                fieldset.find('label.error').remove();
+                fieldset.append(
+                    '<label class="row error">'+
+                        'Присвойте призовое место 2'+
+                    '</label>'
+                );
+            }
+            else {
+                fieldset.removeClass('error');
+                fieldset.find('label.error').remove();
+            }
+        }
+
+        return succes;
+    }
+
+    function validate_checkbox(fieldset) {
+        var succes = false;
+
+        fieldset.find('input').each(function(){
+            if ($(this).prop('checked')) {
+                succes = true;
+            }
+        });
+        if (!succes) {
+            fieldset.addClass('error');
+            fieldset.find('label.error').remove();
+            fieldset.append(
+                '<label class="row error">'+
+                    'Выберите как минимум 1 вариант ответа (количество вариантов, которые вы можете выбрать - неограничено)'+
+                '</label>'
+            );
+        }
+        else {
+            fieldset.removeClass('error');
+            fieldset.find('label.error').remove();
+        }
+
+        return succes;
+    }
+
+
+    function scrollToError() {        
+        var top_error = $('.error:visible').first().offset().top;
+        if (top_error > 275) {
+            $(window).scrollTop(top_error - 275);
+        }
+        else {
+            $(window).scrollTop(0);   
+        }
+    }
+
+});
+

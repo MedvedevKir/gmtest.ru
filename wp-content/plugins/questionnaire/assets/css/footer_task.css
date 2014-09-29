@@ -1,0 +1,145 @@
+/* [Task] */
+
+.task-name-wrap,
+.task-back-wrap
+{
+    overflow: hidden;
+
+    height: 50px;
+    margin: 0 0 20px;
+}
+
+.task-name-wrap:after,
+.task-back-wrap:after
+{
+    display: table;
+    clear: both;
+
+    content: '';
+}
+
+.task-name-wrap
+{
+    background: #efefef;
+}
+
+.task-name,
+.task-back
+{
+    position: relative;
+
+    float: left;
+
+    height: 50px;
+    padding: 0 40px;
+
+    background: #ffd966;
+
+    font-size: 20px;
+    line-height: 50px;
+}
+
+.task-name:after,
+.task-back:after
+{
+    position: absolute;
+    top: 0;
+    left: 100%;
+
+    content: '';
+
+    border: 25px #efefef solid;
+    border-left: 20px #ffd966 solid;
+
+    /* antialiasing */
+    -webkit-transform: rotate(360deg);
+}
+
+.task-back,
+.task-back:visited,
+.task-back:hover
+{
+    left: 20px;
+
+    text-decoration: none;
+
+    color: #000;
+    background: #efefef;
+}
+
+.task-back:after
+{
+    left: -40px;
+
+    border: 25px #fff solid;
+    border-right: 20px #efefef solid;
+}
+
+.task-name:first-letter
+{
+    color: red;
+}
+
+.task-readme-link
+{
+    float: left;
+
+    margin: 0 0 0 50px;
+
+    text-transform: uppercase;
+
+    color: #000;
+
+    font: 16px/45px Arial, sans-serif;
+}
+
+
+/* [Subtask] */
+
+.subtask
+{
+    clear: both;
+
+    padding: 0 20px 30px;
+}
+
+.subtask-name
+{
+    font-size: 16px;
+}
+
+.subtask-button,
+.subtask-button:visited
+{
+    display: inline-block;
+
+    margin: 0 20px 10px 0;
+    padding: 10px 20px;
+
+    text-decoration: none;
+    text-transform: uppercase;
+
+    color: #000;
+    background: #efefef;
+
+    font-size: 14px;
+}
+
+.subtask-button:hover
+{
+    background: #cecece;
+}
+
+.subtask-browsers
+{
+    display: inline-block;
+
+    margin: 10px 0 0;
+
+    vertical-align: top;
+}
+
+.subtask-notice
+{
+    color: #aaa;
+}

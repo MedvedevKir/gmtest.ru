@@ -1,0 +1,49 @@
+/* [Elements for example] */
+
+.text
+{
+    padding: 5px 20px;
+
+    font: 14px/20px Arial, sans-serif;
+}
+
+.button
+{
+    margin: 20px;
+    padding: 15px 20px;
+
+    text-align: center;
+    white-space: nowrap;
+
+    font-size: 16px;
+}
+
+.button-yellow
+{
+    background: #ffd966;
+}
+
+.button-blue
+{
+    background: #68c3dd;
+}
+
+.button-green
+{
+    background: #56ed9d;
+}
+
+.content-yellow
+{
+    background: #fff3cd;
+}
+
+.content-blue
+{
+    background: #cdf6ff;
+}
+
+.content-green
+{
+    background: #cdffe0;
+}
