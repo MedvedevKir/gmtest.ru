@@ -55,27 +55,72 @@ if (isset($_REQUEST['type']) and $_REQUEST['type'] == 'user'){
         }
     }
     
-    //Получение телефонов пользователя.
-    $phone_u = $_REQUEST['phone'];
-    if(isset($_REQUEST['phone2']) and $_REQUEST['phone2'] != '7' and $_REQUEST['phone2'] != '') {
-        $phone_u2 = $_REQUEST['phone2'];
-    }
-    if(isset($_REQUEST['phone3']) and $_REQUEST['phone3'] != '7' and $_REQUEST['phone3'] != '') {
-        $phone_u3 = $_REQUEST['phone3'];
-    }
-    
-    //Проверка записи данных
-    $sql = 'INSERT INTO user SET
+    //Сохранение личных данных в базе
+    $sql1 = 'INSERT INTO user SET
                 fio = :fio,
                 birthday = :birthday,
                 email = :email_u,
-                diagnosis = :diagnosis';
-    $s = $pdo->prepare($sql);
-    $s->bindValue(':fio', $name_u . " " . $lastname_u . " " . $middlename_u);
-    $s->bindValue(':birthday', $birthday);
-    $s->bindValue(':email_u', $email_u);
-    $s->bindValue(':diagnosis' , $diagnosis);
-    $s->execute();
+                diagnosis = :diagnosis,
+                address_index = :index,
+                address_state = :state,
+                address_city = :city,
+                address_street = :street,
+                address_build = :build,
+                address_campus = :campus,
+                address_flat = :flat';
+    $s1 = $pdo->prepare($sql1);
+    $s1->bindValue(':fio', $name_u . " " . $lastname_u . " " . $middlename_u);
+    $s1->bindValue(':birthday', $birthday);
+    $s1->bindValue(':email_u', $email_u);
+    $s1->bindValue(':diagnosis' , $diagnosis);
+    $s1->bindValue(':index' , $index_u);
+    $s1->bindValue(':state' , $state_u);
+    $s1->bindValue(':city' , $city_u);
+    $s1->bindValue(':street' , $street_u);
+    $s1->bindValue(':build' , $build_u);
+    $s1->bindValue(':campus' , $campus_u);
+    $s1->bindValue(':flat' , $flat_u);
+    $s1->execute();
+    
+    $userid = $pdo->lastInsertId();
+    
+    //Получение телефонов пользователя.
+    $phone_u = $_REQUEST['phone'];
+    
+    //Сохранение телефонов в базе
+    $sql2 = 'INSERT INTO phones_user SET
+                userid = :userid,
+                phone_number = :phone_number';
+    $s2 = $pdo->prepare($sql2);
+    $s2->bindValue(':userid', $userid);
+    $s2->bindValue(':phone_number', $phone_u);
+    $s2->execute();
+    
+    if(isset($_REQUEST['phone2']) and $_REQUEST['phone2'] != '7' and $_REQUEST['phone2'] != '') {
+        $phone_u2 = $_REQUEST['phone2'];
+        
+        //Сохранение телефонов в базе
+        $sql3 = 'INSERT INTO phones_user SET
+                    userid = :userid,
+                    phone_number = :phone_number';
+        $s3 = $pdo->prepare($sql3);
+        $s3->bindValue(':userid', $userid);
+        $s3->bindValue(':phone_number', $phone_u2);
+        $s3->execute();
+    }
+    if(isset($_REQUEST['phone3']) and $_REQUEST['phone3'] != '7' and $_REQUEST['phone3'] != '') {
+        $phone_u3 = $_REQUEST['phone3'];
+        
+        //Сохранение телефонов в базе
+        $sql4 = 'INSERT INTO phones_user SET
+                    userid = :userid,
+                    phone_number = :phone_number';
+        $s4 = $pdo->prepare($sql4);
+        $s4->bindValue(':userid', $userid);
+        $s4->bindValue(':phone_number', $phone_u3);
+        $s4->execute();
+    }
+    
 }
 
 //Обработка данных анкеты при заполнении ее куратором
@@ -180,7 +225,4 @@ if(isset($_REQUEST['type']) and $_REQUEST['type'] == 'coordinator') {
             }
         }
     }
-    
-    //Проверка записи данных
-    include $_SERVER['DOCUMENT_ROOT'] .'/wordpress/be/DB/DataFromAnket.html.php';
 }

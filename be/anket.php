@@ -1,5 +1,7 @@
 <?php
-$list['owner_list'] = array(
+include $_SERVER['DOCUMENT_ROOT'] .'/wordpress/be/DB/DB.php';
+
+/*$list['owner_list'] = array(
     'user'  => 'Пользователь',
     'coordinator'=> 'Куратор',
 );
