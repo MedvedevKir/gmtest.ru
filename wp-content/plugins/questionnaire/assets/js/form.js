@@ -459,7 +459,7 @@ $(function() {
     });
 
     $day_purchase_glucometr.datepicker({
-            dateFormat: 'dd.mm.yy',
+            dateFormat: 'yy-mm-dd',
             changeMonth: true,
             changeYear: true,
             autoSize: true,
@@ -467,7 +467,7 @@ $(function() {
     });
 
     $birthday.datepicker({
-            dateFormat: 'dd.mm.yy',
+            dateFormat: 'yy-mm-dd',
             changeMonth: true,
             changeYear: true,
             yearRange: "1900:2014"
@@ -870,7 +870,7 @@ $(function() {
             email:{
                 required: true,
                 email: true,
-                regexp: '^[-a-zA-Z@._]+$'
+                regexp: '^[-a-zA-Z0-9@._]+$'
             },
             index:{
                 required: true,
@@ -1320,7 +1320,7 @@ $(function() {
                 $("form").serialize(), 
                 function(data){
                     if (data === 'true') {
-                        window.location = site_url+'/successful-fill-beginner';
+                        window.location = 'http://google.com/';
                     }
                 }
             );
