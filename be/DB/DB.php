@@ -1,17 +1,9 @@
 <?php
 
 //Подключение к базе данных по клиентам gmtest.
-try {
-    $pdo = new PDO('mysql:host=localhost;dbname=gmtest', 'root', '');
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $pdo->exec('SET NAMES "utf8"');
-} catch (PDOException $e) {
-    $error = 'Невозможно подсоединиться к базе данных gmtest!<br> '
-            . $e->getMessage();
-    include $_SERVER['DOCUMENT_ROOT'] .'/wordpress/be/DB/error.html.php';
-    exit();
-}
+include $_SERVER['DOCUMENT_ROOT'] .'/wordpress/be/DB/db.inc.php';
 
+global $pdo;
 
 //Обработка личных данных при заполнении анкеты самим пользователем.
 if (isset($_REQUEST['type']) and $_REQUEST['type'] == 'user'){
@@ -400,3 +392,4 @@ if(isset($_REQUEST['type']) and $_REQUEST['type'] == 'coordinator') {
     $s12->bindValue(':coordinatorid', $coordinatorid);
     $s12->execute();
 }
+

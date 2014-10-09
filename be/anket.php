@@ -1,5 +1,9 @@
 <?php
-include $_SERVER['DOCUMENT_ROOT'] .'/wordpress/be/DB/DB.php';
+//Обрабатываем личные данные
+include_once $_SERVER['DOCUMENT_ROOT'] .'/wordpress/be/DB/DB.php';
+
+//Обрабатываем данные о глюкометрах 
+include_once $_SERVER['DOCUMENT_ROOT'] .'/wordpress/be/DB/DB_too.php';
 
 /*$list['owner_list'] = array(
     'user'  => 'Пользователь',
